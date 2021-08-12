@@ -3,10 +3,15 @@ import Booklist from './lists/Booklist';
 import booklist from '../assets/books';
 
 class MainComponent extends Component {
-  state = {
-    books: booklist,
-    showBooks: true 
+  constructor(props) {
+    super(props);
+    this.state = {
+      books: booklist,
+      showBooks: true
+    }
+    console.log("MainComponent constructor");
   }
+
 
   changeByInput = (event, index) => {
     const book = {
@@ -33,7 +38,30 @@ class MainComponent extends Component {
     this.setState({ showBooks: !this.state.showBooks });
   }
 
+  componentDidMount() {
+    console.log("MainComponent componentDidMounts");
+  }
+
+  shouldComponentUpdate(nextProps, nextState) {
+    console.log("U MainComponent shouldComponentUpdate", nextProps, nextState);
+    return true;
+  }
+
+  componentDidUpdate() {
+    console.log("U MainComponent componentDidUpdate");
+  }
+
+  static getDerivedStateFromProps(nextProps, prevState) {
+    console.log("U MainComponent getDerivedStateFromProps", nextProps, prevState);
+    return prevState;
+  }
+
+  getSnapshotBeforeUpdate() {
+    console.log("MainComponent getSnapshotBeforeUpdate");
+  }
+
   render() {
+    console.log("MainComponent render");
     const style = {
       border: "5px solid red",
       margin: "10px auto",

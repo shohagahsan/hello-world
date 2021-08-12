@@ -2,6 +2,7 @@ import React from "react";
 import '../../stylesheets/Book.css';
 
 const Book = props => {
+    console.log("I am from Book");
     return (
         <div className="Book">
             <h3 onClick={props.delete}>Book: {props.bookName}</h3>

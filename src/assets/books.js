@@ -4,5 +4,4 @@ const books = [
     { id: 3, bookName: "book3", writer: "writer3" },
     { id: 4, bookName: "book4", writer: "writer4" }
 ]
-
 export default books;

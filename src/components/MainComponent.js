@@ -1,13 +1,12 @@
 import React, { Component } from 'react';
 import Booklist from './lists/Booklist';
-import booklist from '../assets/book';
+import booklist from '../assets/books';
 
 class MainComponent extends Component {
   state = {
     books: booklist,
-    showBooks: true
-  };
-
+    showBooks: true 
+  }
 
   changeByInput = (event, index) => {
     const book = {
@@ -49,7 +48,7 @@ class MainComponent extends Component {
     if (this.state.showBooks) {
       books = <Booklist
         books={this.state.books}
-        deleteBookState={this.changeBookState}
+        changeBookState={this.changeBookState}
         changeByInput={this.changeByInput}
       />
     }

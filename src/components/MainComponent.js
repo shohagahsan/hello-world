@@ -1,91 +1,49 @@
 import React, { Component } from 'react';
 import Booklist from './lists/Booklist';
 import booklist from '../assets/books';
+import NewBook from './representational/NewBook';
+import BookDetail from './representational/BookDetail';
+import { Route, NavLink, Switch, Redirect } from 'react-router-dom';
 
 class MainComponent extends Component {
   constructor(props) {
     super(props);
     this.state = {
       books: booklist,
-      showBooks: true
+      selectedBook: null
     }
-    console.log("MainComponent constructor");
   }
 
-
-  changeByInput = (event, index) => {
-    const book = {
-      ...this.state.books[index]
-    }
-    book.bookName = event.target.value;
-    const books = [...this.state.books];
-    books[index] = book;
-
-    this.setState({ books: books });
-  }
-
-  changeBookState = index => {
-    // const books = this.state.books.slice();
-    // const books = this.state.books.map(index => index);
-    const books = [...this.state.books];
-    books.splice(index, 1);
+  selectedBookHandler = bookId => {
+    const book = this.state.books.filter(book => book.id === bookId)[0]
     this.setState({
-      books: books
-    });
-  };
-
-  toggleBooks = () => {
-    this.setState({ showBooks: !this.state.showBooks });
-  }
-
-  componentDidMount() {
-    console.log("MainComponent componentDidMounts");
-  }
-
-  shouldComponentUpdate(nextProps, nextState) {
-    console.log("U MainComponent shouldComponentUpdate", nextProps, nextState);
-    return true;
-  }
-
-  componentDidUpdate() {
-    console.log("U MainComponent componentDidUpdate");
-  }
-
-  static getDerivedStateFromProps(nextProps, prevState) {
-    console.log("U MainComponent getDerivedStateFromProps", nextProps, prevState);
-    return prevState;
-  }
-
-  getSnapshotBeforeUpdate() {
-    console.log("MainComponent getSnapshotBeforeUpdate");
+      selectedBook: book
+    })
   }
 
   render() {
-    console.log("MainComponent render");
-    const style = {
-      border: "5px solid red",
-      margin: "10px auto",
-      padding: "20px",
-      borderRadius: "10px",
-      background: "green",
-      color: "white"
-    };
     // const bookState = this.state.books;
 
-    let books = null;
-    if (this.state.showBooks) {
-      books = <Booklist
-        books={this.state.books}
-        changeBookState={this.changeBookState}
-        changeByInput={this.changeByInput}
-      />
-    }
+
+    const books = <Booklist
+      books={this.state.books}
+      selectedBookHandler={this.selectedBookHandler}
+    />
 
     return (
       <div className="App">
-        <h1 style={style}>Book List</h1>
-        <button onClick={this.toggleBooks}>Toggle Books</button>
-        {books}
+        <div className="nav-bar">
+          <ul>
+            <li><NavLink exact to="/">Home</NavLink></li>
+            <li><NavLink to="/new-book">New Book</NavLink></li>
+          </ul>
+        </div>
+        <Switch>
+          <Route path="/books" exact render={() => books} />
+          <Route path="/new-book" exact component={NewBook} />
+          <Route path="/:id" render={() => <BookDetail book={this.state.selectedBook} />} />
+          <Redirect from="/" to="/books" />
+        </Switch>
       </div>
     );
   }
